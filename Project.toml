@@ -1,0 +1,21 @@
+name = "ZXCalculusForCAP"
+uuid = "7f222522-6553-468a-9ae8-e55a72f59a4e"
+authors = [
+	"Fabian Zickgraf <fabian.zickgraf@uni-siegen.de>",
+]
+version = "0.1.0"
+
+[deps]
+CAP = "d64df2ee-d2bb-46f4-8cbc-f03bb858f8cb"
+MonoidalCategories = "bfd98c86-782f-4b94-909f-74167f1eb613"
+FinSetsForCAP = "0a079e9b-4bc2-44fe-a89b-7607e4464786"
+
+[compat]
+julia = "1.9"
+
+[extras]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test", "Documenter"]

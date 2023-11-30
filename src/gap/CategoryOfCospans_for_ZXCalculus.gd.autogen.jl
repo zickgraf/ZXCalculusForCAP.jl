@@ -8,8 +8,8 @@
 #! @Section Constructors
 
 #! @Description
-#!   Creates a category of cospans in the cocartesian category <A>C</A>.
-#!   The monoidal structure is lifted from the cocartesian structure of <A>C</A>.
+#!   Creates a category of cospans in the cocartesian category <A>C</A>
+#!   with a rigid symmetric monoidal structure induced by the cocartesian structure of <A>C</A>.
 #! @Returns a category of cospans
 #! @Arguments C
 @DeclareOperation( "CategoryOfCospans_for_ZXCalculus",

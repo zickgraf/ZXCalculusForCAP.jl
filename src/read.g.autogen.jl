@@ -10,6 +10,8 @@ include( "gap/precompiled_categories/CategoryOfZXDiagrams_precompiled.gi.autogen
 
 include( "gap/CategoryOfZXDiagrams.gi.autogen.jl" );
 
+include( "gap/Tools.gi.autogen.jl" );
+
 #= comment for Julia
 if IsPackageMarkedForLoading( "FunctorCategories", ">= 2023.07-01" ) then
     

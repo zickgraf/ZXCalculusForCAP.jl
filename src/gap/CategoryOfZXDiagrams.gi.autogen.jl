@@ -4,32 +4,30 @@
 # Implementations
 #
 
-# 0: IO
-# 1: green spider == Z, TODO: parametrize
-# 2: red spider == X, TODO: parametrize
+# 0: IO + inner neutral nodes
+# 1: green spider == Z
+# 2: red spider == X
 # 3: Hadamard == H
 
+@BindGlobal( "S_ZX_NODES", [ "neutral", "Z", "X", "H" ] );
+@BindGlobal( "S_ZX_EDGES", [ [ 0, 1 ], [ 0, 2 ], [ 0, 3 ] ] );
+
 @BindGlobal( "ZX_LabelToInteger", function ( label )
+  local pos;
     
-    if (label == "input" || label == "output" || label == "input_output" || label == "neutral")
+    pos = Position( S_ZX_NODES, label );
+    
+    if (pos == fail)
         
-        return BigInt( 0 );
+        Add( S_ZX_NODES, label );
         
-    elseif (label == "Z")
+        Add( S_ZX_EDGES, [ 0, Length( S_ZX_NODES ) - 1 ] );
         
-        return BigInt( 1 );
-        
-    elseif (label == "X")
-        
-        return BigInt( 2 );
-        
-    elseif (label == "H")
-        
-        return BigInt( 3 );
+        return Length( S_ZX_NODES ) - 1;
         
     else
         
-        Error( "unkown label ", label );
+        return pos - 1;
         
     end;
     
@@ -37,62 +35,171 @@ end );
 
 CapJitAddTypeSignature( "ZX_LabelToInteger", [ IsStringRep ], IsBigInt );
 
-@BindGlobal( "ZX_IntegerToLabel", function ( pos, input_positions, output_positions, int )
+@BindGlobal( "ZX_IntegerToLabel", function ( int )
     
-    if (int == BigInt( 0 ))
+    return S_ZX_NODES[int + 1];
+    
+end );
+
+CapJitAddTypeSignature( "ZX_IntegerToLabel", [ IsBigInt ], IsStringRep );
+
+@BindGlobal( "ZX_RemovedInnerNeutralNodes", function ( tuple )
+  local labels, input_positions, output_positions, edges, pos, edge_positions, new_edge, edge_1, edge_2, remaining_indices;
+    
+    labels = ShallowCopy( tuple[1] );
+    input_positions = ShallowCopy( tuple[2] );
+    output_positions = ShallowCopy( tuple[3] );
+    edges = ShallowCopy( tuple[4] );
+    
+    while true
         
-        if (pos in input_positions)
+        pos = PositionProperty( (1):(Length( labels )), i -> labels[i] == "neutral" && (@not i - 1 in input_positions) && (@not i - 1 in output_positions) );
         
-            if (pos in output_positions)
-                
-                return "input_output";
-                
-            else
-                
-                return "input";
-                
-            end;
+        if (pos == fail)
             
-        elseif (pos in output_positions)
-            
-            return "output";
-            
-        else
-            
-            return "neutral";
+            break;
             
         end;
         
-    elseif (int == BigInt( 1 ))
+        # find the edges connecting to the current node
+        edge_positions = PositionsProperty( edges, e -> (pos - 1) in e );
         
-        return "Z";
+        new_edge = fail;
         
-    elseif (int == BigInt( 2 ))
+        if (Length( edge_positions ) == 0)
+            
+            # isolated neutral node
+            # this can happen when composing EvaluationForDual with CoevaluationForDual
+            # simply remove below
+            
+        elseif (Length( edge_positions ) == 2)
+            
+            edge_1 = edges[edge_positions[1]];
+            edge_2 = edges[edge_positions[2]];
+            
+            new_edge = [ ];
+            
+            if (edge_1[1] == pos - 1)
+                
+                @Assert( 0, edge_1[2] != pos - 1 );
+                
+                Add( new_edge, edge_1[2] );
+                
+            elseif (edge_1[2] == pos - 1)
+                
+                @Assert( 0, edge_1[1] != pos - 1 );
+                
+                Add( new_edge, edge_1[1] );
+                
+            else
+                
+                # COVERAGE_IGNORE_NEXT_LINE
+                Error( "this should never happen" );
+                
+            end;
+            
+            if (edge_2[1] == pos - 1)
+                
+                @Assert( 0, edge_2[2] != pos - 1 );
+                
+                Add( new_edge, edge_2[2] );
+                
+            elseif (edge_2[2] == pos - 1)
+                
+                @Assert( 0, edge_2[1] != pos - 1 );
+                
+                Add( new_edge, edge_2[1] );
+                
+            else
+                
+                # COVERAGE_IGNORE_NEXT_LINE
+                Error( "this should never happen" );
+                
+            end;
+            
+        else
+            
+            # COVERAGE_IGNORE_NEXT_LINE
+            Error( "this should never happen" );
+            
+        end;
         
-        return "X";
+        Remove( labels, pos );
         
-    elseif (int == BigInt( 3 ))
+        # we cannot use Remove for the two edges because the position of the second edge might change after the first is removed
+        remaining_indices = Difference( (1):(Length( edges )), edge_positions );
+        edges = edges[remaining_indices];
         
-        return "H";
+        if (new_edge != fail)
+            
+            Add( edges, new_edge );
+            
+        end;
         
-    else
+        # adjust input positions after the removed node
+        input_positions = List( input_positions, function ( i )
+            
+            @Assert( 0, i != pos - 1 );
+            
+            if (i > pos - 1)
+                
+                return i - 1;
+                
+            else
+                
+                return i;
+                
+            end;
+            
+        end );
         
-        Error( "unknown integer: ", int );
+        # adjust output positions after the removed node
+        output_positions = List( output_positions, function ( i )
+            
+            @Assert( 0, i != pos - 1 );
+            
+            if (i > pos - 1)
+                
+                return i - 1;
+                
+            else
+                
+                return i;
+                
+            end;
+            
+        end );
+        
+        # adjust edges from/to nodes after the removed node
+        edges = List( edges, function ( e )
+            
+            e = ShallowCopy( e );
+            
+            @Assert( 0, e[1] != pos - 1 );
+            
+            if (e[1] > pos - 1)
+                
+                e[1] = e[1] - 1;
+                
+            end;
+            
+            @Assert( 0, e[2] != pos - 1 );
+            
+            if (e[2] > pos - 1)
+                
+                e[2] = e[2] - 1;
+                
+            end;
+            
+            return e;
+            
+        end );
         
     end;
     
-end );
-
-CapJitAddTypeSignature( "ZX_IntegerToLabel", [ IsBigInt, IsList, IsList, IsBigInt ], function ( input_types )
-    
-    @Assert( 0, input_types[2].element_type.filter == IsBigInt );
-    @Assert( 0, input_types[3].element_type.filter == IsBigInt );
-    
-    return @rec( filter = IsStringRep );
+    return NTupleGAP( 4, labels, input_positions, output_positions, edges );
     
 end );
-
-@BindGlobal( "S_ZX_EDGES", Immutable( [ [ 0, 0 ], [ 0, 1 ], [ 1, 0 ], [ 0, 2 ], [ 2, 0 ], [ 0, 3 ], [ 3, 0 ] ] ) );
 
 @InstallGlobalFunction( CategoryOfZXDiagrams, function ( )
   local ZX;
@@ -105,6 +212,7 @@ end );
             
         else
             
+            # COVERAGE_IGNORE_NEXT_LINE
             Error( "To get a version of `CategoryOfZXDiagrams` without precompiled code, the package `FunctorCategories` is required." );
             
         end;
@@ -114,52 +222,13 @@ end );
         ZX = CreateCapCategoryWithDataTypes(
             "Category of ZX-diagrams", IsCategoryOfZXDiagrams,
             IsZXDiagramObject, IsZXDiagramMorphism, IsCapCategoryTwoCell,
-            IsBigInt, CapJitDataTypeOfNTupleOf( 2, CapJitDataTypeOfListOf( IsStringRep ), CapJitDataTypeOfListOf( CapJitDataTypeOfNTupleOf( 2, IsBigInt, IsBigInt ) ) ), fail
+            IsBigInt, CapJitDataTypeOfNTupleOf( 4, CapJitDataTypeOfListOf( IsStringRep ), CapJitDataTypeOfListOf( IsBigInt ), CapJitDataTypeOfListOf( IsBigInt ), CapJitDataTypeOfListOf( CapJitDataTypeOfNTupleOf( 2, IsBigInt, IsBigInt ) ) ), fail
            ; is_computable = false
         );
         
-        ZX.category_as_first_argument = true;
+        SetIsRigidSymmetricClosedMonoidalCategory( ZX, true );
         
     end;
-    
-    SetIsRigidSymmetricClosedMonoidalCategory( ZX, true );
-    
-    ##
-    AddDualOnObjects( ZX, function ( cat, obj )
-        
-        return obj;
-        
-    end );
-    
-    ##
-    AddEvaluationForDualWithGivenTensorProduct( ZX, function ( cat, source, obj, range )
-      local pair;
-        
-        #% CAP_JIT_DROP_NEXT_STATEMENT
-        @Assert( 0, AsInteger( source ) == 2 * AsInteger( obj ) );
-        #% CAP_JIT_DROP_NEXT_STATEMENT
-        @Assert( 0, AsInteger( range ) == 0 );
-        
-        pair = PairGAP( ListWithIdenticalEntries( AsInteger( source ), "input" ), List( (0):(AsInteger( obj ) - 1), i -> [ i, AsInteger( source ) - 1 - i ] ) );
-        
-        return MorphismConstructor( cat, source, pair, range );
-        
-    end );
-    
-    ##
-    AddCoevaluationForDualWithGivenTensorProduct( ZX, function ( cat, source, obj, range )
-      local pair;
-        
-        #% CAP_JIT_DROP_NEXT_STATEMENT
-        @Assert( 0, AsInteger( source ) == 0 );
-        #% CAP_JIT_DROP_NEXT_STATEMENT
-        @Assert( 0, AsInteger( range ) == 2 * AsInteger( obj ) );
-        
-        pair = PairGAP( ListWithIdenticalEntries( AsInteger( range ), "output" ), List( (0):(AsInteger( obj ) - 1), i -> [ i, AsInteger( range ) - 1 - i ] ) );
-        
-        return MorphismConstructor( cat, source, pair, range );
-        
-    end );
     
     if (ValueOption( "no_precompiled_code" ) != true)
         
@@ -201,120 +270,22 @@ InstallMethod( @__MODULE__,  DisplayString,
         [ IsZXDiagramMorphism ],
         
   function ( phi )
-    local pair, labels, edges, pos, edge_positions, new_edge, edge_1, edge_2, remaining_indices;
+    local tuple, labels, input_positions, output_positions, edges;
     
-    pair = MorphismDatum( phi );
+    tuple = ZX_RemovedInnerNeutralNodes( MorphismDatum( phi ) );
     
-    labels = ShallowCopy( pair[1] );
-    edges = ShallowCopy( pair[2] );
-    
-    # remove neutral nodes
-    while "neutral" in labels
-        
-        pos = SafePosition( labels, "neutral" );
-        
-        # find the edges connecting to the current node
-        edge_positions = PositionsProperty( edges, e -> (pos - 1) in e );
-        
-        new_edge = fail;
-        
-        # degenerate case: loop
-        if (Length( edge_positions ) == 1)
-            
-            # nothing to
-            
-        # usual case: two edges
-        elseif (Length( edge_positions ) == 2)
-            
-            edge_1 = edges[edge_positions[1]];
-            edge_2 = edges[edge_positions[2]];
-            
-            new_edge = [ ];
-            
-            if (edge_1[1] == pos - 1)
-                
-                @Assert( 0, edge_1[2] != pos - 1 );
-                
-                Add( new_edge, edge_1[2] );
-                
-            elseif (edge_1[2] == pos - 1)
-                
-                @Assert( 0, edge_1[1] != pos - 1 );
-                
-                Add( new_edge, edge_1[1] );
-                
-            else
-                
-                Error( "this should never happen" );
-                
-            end;
-            
-            if (edge_2[1] == pos - 1)
-                
-                @Assert( 0, edge_2[2] != pos - 1 );
-                
-                Add( new_edge, edge_2[2] );
-                
-            elseif (edge_2[2] == pos - 1)
-                
-                @Assert( 0, edge_2[1] != pos - 1 );
-                
-                Add( new_edge, edge_2[1] );
-                
-            else
-                
-                Error( "this should never happen" );
-                
-            end;
-            
-        else
-            
-            Error( "this should never happen" );
-            
-        end;
-            
-        Remove( labels, pos );
-        
-        # we cannot use Remove for the two edges because the position of the second edge might change after the first is removed
-        remaining_indices = Difference( (1):(Length( edges )), edge_positions );
-        edges = edges[remaining_indices];
-        
-        if (new_edge != fail)
-            
-            Add( edges, new_edge );
-            
-        end;
-        
-        # adjust edges from/to nodes after the removed node
-        edges = List( edges, function ( e )
-            
-            e = ShallowCopy( e );
-            
-            @Assert( 0, e[1] != pos - 1 );
-            
-            if (e[1] > pos - 1)
-                
-                e[1] = e[1] - 1;
-                
-            end;
-            
-            @Assert( 0, e[2] != pos - 1 );
-            
-            if (e[2] > pos - 1)
-                
-                e[2] = e[2] - 1;
-                
-            end;
-            
-            return e;
-            
-        end );
-        
-    end;
+    labels = tuple[1];
+    input_positions = tuple[2];
+    output_positions = tuple[3];
+    edges = tuple[4];
     
     return @Concatenation(
         "A morphism in ", Name( CapCategory( phi ) ), " given by a ZX diagram with ", StringGAP( Length( labels ) ), " vertex labels\n",
-        "  ", PrintString( labels ), "\n",
+        "  ", PrintString( labels ), ",\n",
+        "  inputs\n",
+        "  ", PrintString( input_positions ), ",\n",
+        "  outputs\n",
+        "  ", PrintString( output_positions ), ",\n",
         "  and ", StringGAP( Length( edges ) ), " edges\n",
         "  ", PrintString( edges ), ".\n"
     );

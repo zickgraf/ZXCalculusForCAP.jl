@@ -45,11 +45,12 @@ CapJitAddTypeSignature( "AsInteger", [ IsZXDiagramObject ], IsInt );
 #! @Arguments mor
 @DeclareAttribute( "VertexLabeledGraph", IsZXDiagramMorphism );
 
-CapJitAddTypeSignature( "VertexLabeledGraph", [ IsZXDiagramMorphism ], CapJitDataTypeOfNTupleOf( 2, CapJitDataTypeOfListOf( IsStringRep ), CapJitDataTypeOfListOf( CapJitDataTypeOfNTupleOf( 2, IsInt, IsInt ) ) ) );
+CapJitAddTypeSignature( "VertexLabeledGraph", [ IsZXDiagramMorphism ], CapJitDataTypeOfNTupleOf( 4, CapJitDataTypeOfListOf( IsStringRep ), CapJitDataTypeOfListOf( IsBigInt ), CapJitDataTypeOfListOf( IsBigInt ), CapJitDataTypeOfListOf( CapJitDataTypeOfNTupleOf( 2, IsBigInt, IsBigInt ) ) ) );
 
 # helpers
 DeclareGlobalName( "ZX_LabelToInteger" );
 DeclareGlobalName( "ZX_IntegerToLabel" );
+DeclareGlobalName( "ZX_RemovedInnerNeutralNodes" );
 DeclareGlobalName( "S_ZX_EDGES" );
 
 @DeclareGlobalFunction( "SKELETAL_FIN_SETS_ExplicitCoequalizer_primitive_input" );

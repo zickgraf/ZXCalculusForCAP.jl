@@ -33,29 +33,47 @@ julia> PreCompose( IdentityMorphism( zero ), coev );
 
 julia> Display( PreCompose( coev, ev ) )
 A morphism in Category of ZX-diagrams given by a ZX diagram with 0 vertex labels
-  [ ]
+  [ ],
+  inputs
+  [ ],
+  outputs
+  [ ],
   and 0 edges
   [ ].
 
 julia> Display( PreCompose( ev, coev ) )
-A morphism in Category of ZX-diagrams given by a ZX diagram with 12 vertex labels
-  [ "input", "input", "input", "input", "input", "input", "output", "output", "output", "output", "output", "output" ]
-  and 6 edges
-  [ [ 0, 5 ], [ 1, 4 ], [ 2, 3 ], [ 6, 11 ], [ 7, 10 ], [ 8, 9 ] ].
+A morphism in Category of ZX-diagrams given by a ZX diagram with 6 vertex labels
+  [ "neutral", "neutral", "neutral", "neutral", "neutral", "neutral" ],
+  inputs
+  [ 0, 1, 2, 0, 1, 2 ],
+  outputs
+  [ 3, 4, 5, 3, 4, 5 ],
+  and 0 edges
+  [ ].
 
-julia> X_1_1 = MorphismConstructor( one, [ [ "input", "X", "output" ], [ [ BigInt( 0 ), BigInt( 1 ) ], [ BigInt( 1 ), BigInt( 2 ) ] ] ], one );
+julia> X_1_1 = MorphismConstructor( one, [ [ "neutral", "X", "neutral" ], [ BigInt( 0 ) ], [ BigInt( 2 ) ], [ [ BigInt( 0 ), BigInt( 1 ) ], [ BigInt( 2 ), BigInt( 1 ) ] ] ], one );
 
 julia> IsWellDefinedForMorphisms( X_1_1 )
 true
 
-julia> Z_1_1 = MorphismConstructor( one, [ [ "input", "Z", "output" ], [ [ BigInt( 0 ), BigInt( 1 ) ], [ BigInt( 1 ), BigInt( 2 ) ] ] ], one );
+julia> Z_1_1 = MorphismConstructor( one, [ [ "neutral", "Z", "neutral" ], [ BigInt( 0 ) ], [ BigInt( 2 ) ], [ [ BigInt( 0 ), BigInt( 1 ) ], [ BigInt( 2 ), BigInt( 1 ) ] ] ], one );
 
 julia> IsWellDefinedForMorphisms( Z_1_1 )
 true
 
-julia> H = MorphismConstructor( one, [ [ "input", "H", "output" ], [ [ BigInt( 0 ), BigInt( 1 ) ], [ BigInt( 1 ), BigInt( 2 ) ] ] ], one );
+julia> H = MorphismConstructor( one, [ [ "neutral", "H", "neutral" ], [ BigInt( 0 ) ], [ BigInt( 2 ) ], [ [ BigInt( 0 ), BigInt( 1 ) ], [ BigInt( 2 ), BigInt( 1 ) ] ] ], one );
 
 julia> IsWellDefinedForMorphisms( H )
+true
+
+julia> X_1_2 = MorphismConstructor( one, [ [ "neutral", "X", "neutral", "neutral" ], [ BigInt( 0 ) ], [ BigInt( 2 ), BigInt( 3 ) ], [ [ BigInt( 0 ), BigInt( 1 ) ], [ BigInt( 2 ), BigInt( 1 ) ], [ BigInt( 3 ), BigInt( 1 ) ] ] ], two );
+
+julia> IsWellDefinedForMorphisms( X_1_2 )
+true
+
+julia> Z_2_1 = MorphismConstructor( two, [ [ "neutral", "neutral", "Z", "neutral" ], [ BigInt( 0 ), BigInt( 1 ) ], [ BigInt( 3 ) ], [ [ BigInt( 0 ), BigInt( 2 ) ], [ BigInt( 1 ), BigInt( 2 ) ], [ BigInt( 3 ), BigInt( 2 ) ] ] ], one );
+
+julia> IsWellDefinedForMorphisms( Z_2_1 )
 true
 
 ```

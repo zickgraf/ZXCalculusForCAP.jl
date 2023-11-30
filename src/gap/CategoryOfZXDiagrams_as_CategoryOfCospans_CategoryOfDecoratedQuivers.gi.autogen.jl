@@ -8,11 +8,13 @@
   local S_ZX, decorated_quivers, FinalizeCategory, csp, object_constructor, modeling_tower_object_constructor, object_datum, modeling_tower_object_datum, morphism_constructor, modeling_tower_morphism_constructor, morphism_datum, modeling_tower_morphism_datum, ZX;
     
     # expanded version of: S_ZX = CreateQuiver( 4, S_ZX_EDGES );
-    S_ZX = CreateCapCategoryObjectWithAttributes( FinQuivers, DefiningTripleOfQuiverEnrichedOverSkeletalFinSets, Triple( 4, 7, S_ZX_EDGES ) );
+    S_ZX = CreateCapCategoryObjectWithAttributes( FinQuivers, DefiningTripleOfQuiverEnrichedOverSkeletalFinSets, Triple( 4, 3, S_ZX_EDGES ) );
     
-    decorated_quivers = CategoryOfDecoratedQuivers( S_ZX, [ "white", "green", "red", "yellow" ], [ "black", "black", "black", "black", "black", "black", "black" ]; FinalizeCategory = true );
+    @Assert( 0, IsWellDefinedForObjects( FinQuivers, S_ZX ) );
     
-    # Display( ENHANCED_SYNTAX_TREE( x -> CreateCapCategoryObjectWithAttributes( FinQuivers, DefiningTripleOfQuiverEnrichedOverSkeletalFinSets, Triple( 4, 7, S_ZX_EDGES ) ) ).bindings.BINDING_RETURN_VALUE );
+    decorated_quivers = CategoryOfDecoratedQuivers( S_ZX, [ "white", "green", "red", "yellow" ], [ "black", "black", "black" ]; FinalizeCategory = true );
+    
+    # Display( ENHANCED_SYNTAX_TREE( x -> CreateCapCategoryObjectWithAttributes( FinQuivers, DefiningTripleOfQuiverEnrichedOverSkeletalFinSets, Triple( 4, 3, S_ZX_EDGES ) ) ).bindings.BINDING_RETURN_VALUE );
     ModelingCategory( decorated_quivers ).compiler_hints.category_attribute_resolving_functions = @rec(
         BaseObject = ( ) -> @rec(
             args = @rec(
@@ -32,7 +34,7 @@
                         ),
                         2 = @rec(
                             type = "EXPR_INT",
-                            value = 7
+                            value = 3
                         ),
                         3 = @rec(
                             gvar = "S_ZX_EDGES",
@@ -65,6 +67,7 @@
         
         if (!(IsBigInt( integer ) && integer >= 0))
             
+            # COVERAGE_IGNORE_NEXT_LINE
             Error( "The object datum in the category of ZX-diagrams must be a non-negative integer." );
             
         end;
@@ -83,6 +86,7 @@
         
         if (!(IsBigInt( integer ) && integer >= 0))
             
+            # COVERAGE_IGNORE_NEXT_LINE
             Error( "The object datum in the category of ZX-diagrams must be a non-negative integer." );
             
         end;
@@ -138,10 +142,10 @@
         
     end;
     
-    morphism_constructor = function ( cat, source, pair, range )
+    morphism_constructor = function ( cat, source, tuple, range )
       local mor;
         
-        mor = CreateCapCategoryMorphismWithAttributes( cat, source, range, VertexLabeledGraph, pair );
+        mor = CreateCapCategoryMorphismWithAttributes( cat, source, range, VertexLabeledGraph, tuple );
         
         #% CAP_JIT_DROP_NEXT_STATEMENT
         @Assert( 0, IsWellDefinedForMorphisms( cat, mor ) );
@@ -150,18 +154,17 @@
         
     end;
     
-    modeling_tower_morphism_constructor = function ( cat, source, pair, range )
+    modeling_tower_morphism_constructor = function ( cat, source, tuple, range )
       local csp, decorated_quivers, labels, edges, input_positions, output_positions, source_decorated_quiver, source_pair, range_decorated_quiver, range_pair, nr_vertices, nr_edges, decorations_of_vertices, decorations_of_edges, central_decorated_quiver, input_morphism, output_morphism, morphism_pair, mor;
         
         csp = ModelingCategory( cat );
         
         decorated_quivers = UnderlyingCategory( csp );
         
-        labels = pair[1];
-        edges = pair[2];
-        
-        input_positions = List( PositionsProperty( labels, x -> x in [ "input", "input_output" ] ), p -> BigInt( p ) - 1 );
-        output_positions = List( PositionsProperty( labels, x -> x in [ "output", "input_output" ] ), p -> BigInt( p ) - 1 );
+        labels = tuple[1];
+        input_positions = tuple[2];
+        output_positions = tuple[3];
+        edges = tuple[4];
         
         source_decorated_quiver = ObjectDatum( csp, source );
         source_pair = ObjectDatum( decorated_quivers, source_decorated_quiver );
@@ -243,15 +246,15 @@
         input_positions = MorphismDatum( decorated_quivers, input_morphism )[1];
         output_positions = MorphismDatum( decorated_quivers, output_morphism )[1];
         
-        labels = List( (0):(nr_vertices - 1), i -> ZX_IntegerToLabel( i, input_positions, output_positions, decorations_of_vertices[1 + i] ) );
+        labels = List( decorations_of_vertices, d -> ZX_IntegerToLabel( d ) );
         edges = central_decorated_quiver_data[1][3];
         
         #% CAP_JIT_DROP_NEXT_STATEMENT
-        @Assert( 0, Number( labels, x -> x in [ "input", "input_output" ] ) == ObjectDatum( source_decorated_quiver )[1][1] );
+        @Assert( 0, ForAll( input_positions, pos -> labels[pos + 1] == "neutral" ) );
         #% CAP_JIT_DROP_NEXT_STATEMENT
-        @Assert( 0, Number( labels, x -> x in [ "output", "input_output" ] ) == ObjectDatum( range_decorated_quiver )[1][1] );
+        @Assert( 0, ForAll( output_positions, pos -> labels[pos + 1] == "neutral" ) );
         
-        return PairGAP( labels, edges );
+        return NTupleGAP( 4, labels, input_positions, output_positions, edges );
         
     end;
     
@@ -261,7 +264,7 @@
         category_object_filter = IsZXDiagramObject,
         category_morphism_filter = IsZXDiagramMorphism,
         object_datum_type = IsBigInt,
-        morphism_datum_type = CapJitDataTypeOfNTupleOf( 2, CapJitDataTypeOfListOf( IsStringRep ), CapJitDataTypeOfListOf( CapJitDataTypeOfNTupleOf( 2, IsBigInt, IsBigInt ) ) ),
+        morphism_datum_type = CapJitDataTypeOfNTupleOf( 4, CapJitDataTypeOfListOf( IsStringRep ), CapJitDataTypeOfListOf( IsBigInt ), CapJitDataTypeOfListOf( IsBigInt ), CapJitDataTypeOfListOf( CapJitDataTypeOfNTupleOf( 2, IsBigInt, IsBigInt ) ) ),
         object_constructor = object_constructor,
         object_datum = object_datum,
         morphism_constructor = morphism_constructor,

@@ -16,7 +16,6 @@ InstallMethod( @__MODULE__,  CategoryOfCospans_for_ZXCalculus,
         CapJitDataTypeOfObjectOfCategory( underlying_cat ), CapJitDataTypeOfNTupleOf( 2, CapJitDataTypeOfMorphismOfCategory( underlying_cat ), CapJitDataTypeOfMorphismOfCategory( underlying_cat ) ), fail
     );
     
-    cat.category_as_first_argument = true;
     cat.is_computable = false;
     
     cat.compiler_hints = @rec(
@@ -27,7 +26,7 @@ InstallMethod( @__MODULE__,  CategoryOfCospans_for_ZXCalculus,
     
     SetUnderlyingCategory( cat, underlying_cat );
     
-    SetIsSymmetricMonoidalCategory( cat, true );
+    SetIsRigidSymmetricClosedMonoidalCategory( cat, true );
     
     ##
     AddObjectConstructor( cat, function ( cat, underlying_object )
@@ -339,6 +338,41 @@ InstallMethod( @__MODULE__,  CategoryOfCospans_for_ZXCalculus,
         underlying_braiding = CocartesianBraidingInverseWithGivenCoproducts( underlying_cat, underlying_s, underlying_a, underlying_b, underlying_r );
         
         return MorphismConstructor( cat, s, PairGAP( underlying_braiding, IdentityMorphism( underlying_cat, underlying_r ) ), r );
+        
+    end );
+    
+    ##
+    AddDualOnObjects( cat, function ( cat, obj )
+        
+        return obj;
+        
+    end );
+    
+    ##
+    @Assert( 0, CanCompute( underlying_cat, "CocartesianCodiagonal" ) );
+    @Assert( 0, CanCompute( underlying_cat, "UniversalMorphismFromInitialObject" ) );
+    
+    AddEvaluationForDualWithGivenTensorProduct( cat, function ( cat, source, obj, range )
+      local underlying_cat, underlying_obj;
+        
+        underlying_cat = UnderlyingCategory( cat );
+        underlying_obj = UnderlyingObject( obj );
+        
+        return MorphismConstructor( cat, source, PairGAP( CocartesianCodiagonal( underlying_cat, underlying_obj, 2 ), UniversalMorphismFromInitialObject( underlying_cat, underlying_obj ) ), range );
+        
+    end );
+    
+    ##
+    @Assert( 0, CanCompute( underlying_cat, "CocartesianCodiagonal" ) );
+    @Assert( 0, CanCompute( underlying_cat, "UniversalMorphismFromInitialObject" ) );
+    
+    AddCoevaluationForDualWithGivenTensorProduct( cat, function ( cat, source, obj, range )
+      local underlying_cat, underlying_obj;
+        
+        underlying_cat = UnderlyingCategory( cat );
+        underlying_obj = UnderlyingObject( obj );
+        
+        return MorphismConstructor( cat, source, PairGAP( UniversalMorphismFromInitialObject( underlying_cat, underlying_obj ), CocartesianCodiagonal( underlying_cat, underlying_obj, 2 ) ), range );
         
     end );
     

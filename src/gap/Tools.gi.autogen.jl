@@ -461,7 +461,7 @@ if (IsPackageMarkedForLoading( "json", "2.1.1" ))
         source = ObjectConstructor( cat, Length( input_positions ) );
         range = ObjectConstructor( cat, Length( output_positions ) );
         
-        mor = MorphismConstructor( cat, source, NTupleGAP( 4, labels, input_positions, output_positions, edges ), range );
+        mor = MorphismConstructor( cat, source, @NTupleGAP( 4, labels, input_positions, output_positions, edges ), range );
         
         @Assert( 0, IsWellDefinedForMorphisms( cat, mor ) );
         

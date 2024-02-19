@@ -38,8 +38,6 @@ DeclareGlobalName( "ZX" );
 #! @Arguments obj
 @DeclareAttribute( "AsInteger", IsZXDiagramObject );
 
-CapJitAddTypeSignature( "AsInteger", [ IsZXDiagramObject ], IsInt );
-
 #! @Description
 #!   The labeled graph defining a morphism in a category of ZX-diagrams.
 #! @Arguments mor

@@ -12,7 +12,7 @@
 function ( cat_1, s_1, a_1, b_1, c_1, r_1 )
     local deduped_1_1;
     deduped_1_1 = AsInteger( r_1 );
-    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( deduped_1_1, "neutral" ), (0):(AsInteger( a_1 ) + AsInteger( b_1 ) + (AsInteger( c_1 ) - 1)), (0):(deduped_1_1 - 1), [  ] ) );
+    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( deduped_1_1, "neutral" ), (0):(AsInteger( a_1 ) + AsInteger( b_1 ) + (AsInteger( c_1 ) - 1)), (0):(deduped_1_1 - 1), [  ] ) );
 end
 ########
         
@@ -25,7 +25,7 @@ end
 function ( cat_1, s_1, a_1, b_1, c_1, r_1 )
     local deduped_1_1;
     deduped_1_1 = AsInteger( r_1 );
-    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( deduped_1_1, "neutral" ), (0):(AsInteger( a_1 ) + AsInteger( b_1 ) + AsInteger( c_1 ) - 1), (0):(deduped_1_1 - 1), [  ] ) );
+    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( deduped_1_1, "neutral" ), (0):(AsInteger( a_1 ) + AsInteger( b_1 ) + AsInteger( c_1 ) - 1), (0):(deduped_1_1 - 1), [  ] ) );
 end
 ########
         
@@ -39,7 +39,7 @@ function ( cat_1, s_1, a_1, b_1, r_1 )
     local deduped_1_1, deduped_2_1;
     deduped_2_1 = AsInteger( a_1 );
     deduped_1_1 = AsInteger( r_1 );
-    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( deduped_1_1, "neutral" ), @Concatenation( (deduped_2_1):(deduped_2_1 + AsInteger( b_1 ) - 1), (0):(deduped_2_1 - 1) ), (0):(deduped_1_1 - 1), [  ] ) );
+    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( deduped_1_1, "neutral" ), @Concatenation( (deduped_2_1):(deduped_2_1 + AsInteger( b_1 ) - 1), (0):(deduped_2_1 - 1) ), (0):(deduped_1_1 - 1), [  ] ) );
 end
 ########
         
@@ -53,7 +53,7 @@ function ( cat_1, s_1, a_1, b_1, r_1 )
     local deduped_1_1, deduped_2_1;
     deduped_2_1 = AsInteger( b_1 );
     deduped_1_1 = AsInteger( r_1 );
-    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( deduped_1_1, "neutral" ), @Concatenation( (deduped_2_1):(deduped_2_1 + AsInteger( a_1 ) - 1), (0):(deduped_2_1 - 1) ), (0):(deduped_1_1 - 1), [  ] ) );
+    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( deduped_1_1, "neutral" ), @Concatenation( (deduped_2_1):(deduped_2_1 + AsInteger( a_1 ) - 1), (0):(deduped_2_1 - 1) ), (0):(deduped_1_1 - 1), [  ] ) );
 end
 ########
         
@@ -68,7 +68,7 @@ function ( cat_1, s_1, a_1, r_1 )
     deduped_3_1 = [  ];
     deduped_2_1 = AsInteger( a_1 );
     deduped_1_1 = (0):(deduped_2_1 - 1);
-    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( deduped_2_1, "neutral" ), deduped_3_1, @Concatenation( deduped_1_1, deduped_1_1 ), deduped_3_1 ) );
+    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( deduped_2_1, "neutral" ), deduped_3_1, @Concatenation( deduped_1_1, deduped_1_1 ), deduped_3_1 ) );
 end
 ########
         
@@ -94,7 +94,7 @@ function ( cat_1, s_1, a_1, r_1 )
     deduped_3_1 = [  ];
     deduped_2_1 = AsInteger( a_1 );
     deduped_1_1 = (0):(deduped_2_1 - 1);
-    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( deduped_2_1, "neutral" ), @Concatenation( deduped_1_1, deduped_1_1 ), deduped_3_1, deduped_3_1 ) );
+    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( deduped_2_1, "neutral" ), @Concatenation( deduped_1_1, deduped_1_1 ), deduped_3_1, deduped_3_1 ) );
 end
 ########
         
@@ -108,7 +108,7 @@ function ( cat_1, a_1 )
     local deduped_1_1, deduped_2_1;
     deduped_2_1 = AsInteger( a_1 );
     deduped_1_1 = (0):(deduped_2_1 - 1);
-    return CreateCapCategoryMorphismWithAttributes( cat_1, a_1, a_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( deduped_2_1, "neutral" ), deduped_1_1, deduped_1_1, [  ] ) );
+    return CreateCapCategoryMorphismWithAttributes( cat_1, a_1, a_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( deduped_2_1, "neutral" ), deduped_1_1, deduped_1_1, [  ] ) );
 end
 ########
         
@@ -138,13 +138,13 @@ function ( cat_1, arg2_1, arg3_1 )
                         return a_2[2];
                     end )) && (deduped_3_1 == deduped_4_1 && List( deduped_7_1, function ( edge_2 )
                       local hoisted_1_2;
-                      hoisted_1_2 = NTupleGAP( 2, deduped_3_1[1 + edge_2[1]], deduped_3_1[1 + edge_2[2]] );
+                      hoisted_1_2 = @NTupleGAP( 2, deduped_3_1[1 + edge_2[1]], deduped_3_1[1 + edge_2[2]] );
                       return BigInt( SafePositionProperty( S_ZX_EDGES, function ( e_3 )
                                   return (e_3 == hoisted_1_2);
                               end ) ) - 1;
                   end ) == List( deduped_8_1, function ( edge_2 )
                       local hoisted_1_2;
-                      hoisted_1_2 = NTupleGAP( 2, deduped_4_1[1 + edge_2[1]], deduped_4_1[1 + edge_2[2]] );
+                      hoisted_1_2 = @NTupleGAP( 2, deduped_4_1[1 + edge_2[1]], deduped_4_1[1 + edge_2[2]] );
                       return BigInt( SafePositionProperty( S_ZX_EDGES, function ( e_3 )
                                   return (e_3 == hoisted_1_2);
                               end ) ) - 1;
@@ -173,14 +173,14 @@ end
     AddIsWellDefinedForMorphisms( cat,
         
 ########
-function ( cat_1, arg2_1 )
+function ( cat_1, alpha_1 )
     local deduped_1_1, deduped_3_1, deduped_5_1, deduped_6_1, deduped_7_1, deduped_8_1, deduped_9_1, deduped_10_1, deduped_11_1, deduped_12_1;
     deduped_12_1 = BigInt( 0 );
-    deduped_11_1 = VertexLabeledGraph( arg2_1 );
+    deduped_11_1 = VertexLabeledGraph( alpha_1 );
     deduped_10_1 = deduped_11_1[1];
-    deduped_9_1 = AsInteger( Range( arg2_1 ) );
+    deduped_9_1 = AsInteger( Range( alpha_1 ) );
     deduped_8_1 = deduped_11_1[3];
-    deduped_7_1 = AsInteger( Source( arg2_1 ) );
+    deduped_7_1 = AsInteger( Source( alpha_1 ) );
     deduped_6_1 = deduped_11_1[2];
     if (@not true)
         deduped_5_1 = false;
@@ -191,7 +191,7 @@ function ( cat_1, arg2_1 )
     end;
     deduped_3_1 = List( deduped_10_1, ZX_LabelToInteger );
     deduped_1_1 = Length( deduped_10_1 );
-    return IdFunc( function (  )
+    return CAP_JIT_EXPR_CASE_WRAPPER( function (  )
                       if (@not ForAll( deduped_6_1, function ( a_3 )
                                    return (IsBigInt( a_3 ) && a_3 >= 0);
                                end ))
@@ -208,7 +208,7 @@ function ( cat_1, arg2_1 )
                       return;
                   end )(  ) && deduped_5_1 && true && (ListWithIdenticalEntries( deduped_7_1, deduped_12_1 ) == List( (0):(deduped_7_1 - 1), function ( i_2 )
                     return deduped_3_1[1 + deduped_6_1[(1 + i_2)]];
-                end ) && true) && (IdFunc( function (  )
+                end ) && true) && (CAP_JIT_EXPR_CASE_WRAPPER( function (  )
                       if (@not ForAll( deduped_8_1, function ( a_3 )
                                    return (IsBigInt( a_3 ) && a_3 >= 0);
                                end ))
@@ -240,7 +240,7 @@ function ( cat_1, arg2_1 )
     deduped_3_1 = BigInt( 0 );
     deduped_2_1 = AsInteger( arg2_1 );
     deduped_1_1 = ListWithIdenticalEntries( deduped_2_1, deduped_3_1 );
-    return IdFunc( function (  )
+    return CAP_JIT_EXPR_CASE_WRAPPER( function (  )
                   if (@not ForAll( deduped_1_1, function ( a_3 )
                                return (IsBigInt( a_3 ) && a_3 >= 0);
                            end ))
@@ -255,7 +255,7 @@ function ( cat_1, arg2_1 )
                       return true;
                   end;
                   return;
-              end )(  ) && IdFunc( function (  )
+              end )(  ) && CAP_JIT_EXPR_CASE_WRAPPER( function (  )
                   if (@not true)
                       return false;
                   elseif (deduped_3_1 != 0)
@@ -277,7 +277,7 @@ end
 function ( cat_1, a_1, r_1 )
     local deduped_1_1;
     deduped_1_1 = AsInteger( a_1 ) - 1;
-    return CreateCapCategoryMorphismWithAttributes( cat_1, a_1, r_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( AsInteger( r_1 ), "neutral" ), (BigInt( 0 )):(deduped_1_1), (0):(deduped_1_1), [  ] ) );
+    return CreateCapCategoryMorphismWithAttributes( cat_1, a_1, r_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( AsInteger( r_1 ), "neutral" ), (BigInt( 0 )):(deduped_1_1), (0):(deduped_1_1), [  ] ) );
 end
 ########
         
@@ -292,7 +292,7 @@ function ( cat_1, a_1, s_1 )
     deduped_3_1 = AsInteger( a_1 );
     deduped_2_1 = deduped_3_1 - 1;
     hoisted_1_1 = (BigInt( 0 )):(deduped_2_1);
-    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, a_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( deduped_3_1, "neutral" ), List( (0):(AsInteger( s_1 ) - 1), function ( x_2 )
+    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, a_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( deduped_3_1, "neutral" ), List( (0):(AsInteger( s_1 ) - 1), function ( x_2 )
                 return -1 + BigInt( SafePosition( hoisted_1_1, x_2 ) );
             end ), (0):(deduped_2_1), [  ] ) );
 end
@@ -368,14 +368,14 @@ function ( cat_1, alpha_1, beta_1 )
     deduped_25_1 = deduped_27_1 + deduped_28_1;
     deduped_24_1 = (0):(deduped_30_1 - 1);
     deduped_23_1 = (0):(deduped_29_1 - 1);
-    deduped_22_1 = NTupleGAP( 3, BigInt( 0 ), [  ], deduped_26_1 );
+    deduped_22_1 = @NTupleGAP( 3, BigInt( 0 ), [  ], deduped_26_1 );
     deduped_21_1 = (0):(deduped_26_1 - 1);
     deduped_20_1 = SKELETAL_FIN_SETS_ExplicitCoequalizer_primitive_input( deduped_26_1, [ deduped_22_1, deduped_22_1 ] );
     hoisted_2_1 = deduped_40_1[2];
     hoisted_1_1 = deduped_39_1[3];
-    deduped_19_1 = SKELETAL_FIN_SETS_ExplicitCoequalizer_primitive_input( deduped_25_1, [ NTupleGAP( 3, deduped_33_1, List( (0):(deduped_33_1 - 1), function ( i_2 )
+    deduped_19_1 = SKELETAL_FIN_SETS_ExplicitCoequalizer_primitive_input( deduped_25_1, [ @NTupleGAP( 3, deduped_33_1, List( (0):(deduped_33_1 - 1), function ( i_2 )
                     return hoisted_1_1[1 + i_2];
-                end ), deduped_25_1 ), NTupleGAP( 3, deduped_34_1, List( (0):(deduped_34_1 - 1), function ( i_2 )
+                end ), deduped_25_1 ), @NTupleGAP( 3, deduped_34_1, List( (0):(deduped_34_1 - 1), function ( i_2 )
                     return deduped_27_1 + hoisted_2_1[(1 + i_2)];
                 end ), deduped_25_1 ) ] );
     deduped_18_1 = @Concatenation( List( deduped_23_1, function ( i_2 )
@@ -414,7 +414,7 @@ function ( cat_1, alpha_1, beta_1 )
         end );
     hoisted_7_1 = deduped_39_1[2];
     hoisted_6_1 = @Concatenation( deduped_31_1, deduped_32_1 );
-    return CreateCapCategoryMorphismWithAttributes( cat_1, deduped_37_1, deduped_38_1, VertexLabeledGraph, NTupleGAP( 4, List( (0):(BigInt( Length( deduped_19_1 ) ) - 1), function ( y_2 )
+    return CreateCapCategoryMorphismWithAttributes( cat_1, deduped_37_1, deduped_38_1, VertexLabeledGraph, @NTupleGAP( 4, List( (0):(BigInt( Length( deduped_19_1 ) ) - 1), function ( y_2 )
                 if (@not y_2 in deduped_5_1)
                     return "neutral";
                 else
@@ -430,7 +430,7 @@ function ( cat_1, alpha_1, beta_1 )
               end ), List( deduped_20_1, function ( x_2 )
                   return hoisted_16_1[1 + x_2[1]];
               end ), function ( s_2, t_2 )
-                return NTupleGAP( 2, s_2, t_2 );
+                return @NTupleGAP( 2, s_2, t_2 );
             end ) ) );
 end
 ########
@@ -444,7 +444,7 @@ end
 function ( cat_1, a_1, r_1 )
     local deduped_1_1;
     deduped_1_1 = AsInteger( r_1 );
-    return CreateCapCategoryMorphismWithAttributes( cat_1, a_1, r_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( deduped_1_1, "neutral" ), (0):(AsInteger( a_1 ) - 1), (0):(deduped_1_1 - 1), [  ] ) );
+    return CreateCapCategoryMorphismWithAttributes( cat_1, a_1, r_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( deduped_1_1, "neutral" ), (0):(AsInteger( a_1 ) - 1), (0):(deduped_1_1 - 1), [  ] ) );
 end
 ########
         
@@ -459,7 +459,7 @@ function ( cat_1, a_1, s_1 )
     deduped_3_1 = AsInteger( a_1 );
     deduped_2_1 = (0):(AsInteger( s_1 ) - 1);
     hoisted_1_1 = (0):(deduped_3_1 - 1);
-    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, a_1, VertexLabeledGraph, NTupleGAP( 4, ListWithIdenticalEntries( deduped_3_1, "neutral" ), List( deduped_2_1, function ( x_2 )
+    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, a_1, VertexLabeledGraph, @NTupleGAP( 4, ListWithIdenticalEntries( deduped_3_1, "neutral" ), List( deduped_2_1, function ( x_2 )
                 return -1 + BigInt( SafePosition( hoisted_1_1, x_2 ) );
             end ), deduped_2_1, [  ] ) );
 end
@@ -485,7 +485,7 @@ function ( cat_1, s_1, alpha_1, beta_1, r_1 )
     deduped_3_1 = Length( deduped_10_1 );
     hoisted_2_1 = deduped_14_1[2];
     hoisted_1_1 = deduped_13_1[2];
-    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, NTupleGAP( 4, @Concatenation( deduped_10_1, deduped_14_1[1] ), @Concatenation( List( (0):(AsInteger( Source( alpha_1 ) ) - 1), function ( i_2 )
+    return CreateCapCategoryMorphismWithAttributes( cat_1, s_1, r_1, VertexLabeledGraph, @NTupleGAP( 4, @Concatenation( deduped_10_1, deduped_14_1[1] ), @Concatenation( List( (0):(AsInteger( Source( alpha_1 ) ) - 1), function ( i_2 )
                   return hoisted_1_1[1 + i_2];
               end ), List( (0):(AsInteger( Source( beta_1 ) ) - 1), function ( i_2 )
                   return deduped_3_1 + hoisted_2_1[(1 + i_2)];
@@ -502,7 +502,7 @@ function ( cat_1, s_1, alpha_1, beta_1, r_1 )
                 end ), List( deduped_9_1, function ( i_2 )
                     return deduped_3_1 + CAP_JIT_INCOMPLETE_LOGIC( CAP_JIT_INCOMPLETE_LOGIC( deduped_12_1[(1 + i_2)] )[2] );
                 end ) ), function ( s_2, t_2 )
-                return NTupleGAP( 2, s_2, t_2 );
+                return @NTupleGAP( 2, s_2, t_2 );
             end ) ) );
 end
 ########

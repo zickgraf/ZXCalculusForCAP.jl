@@ -197,14 +197,18 @@ CapJitAddTypeSignature( "ZX_IntegerToLabel", [ IsBigInt ], IsStringRep );
         
     end;
     
-    return NTupleGAP( 4, labels, input_positions, output_positions, edges );
+    return @NTupleGAP( 4, labels, input_positions, output_positions, edges );
     
 end );
 
-@InstallGlobalFunction( CategoryOfZXDiagrams, function ( )
-  local ZX;
+@InstallGlobalFunction( CategoryOfZXDiagrams, @FunctionWithNamedArguments(
+  [
+    [ "no_precompiled_code", false ],
+  ],
+  function ( CAP_NAMED_ARGUMENTS )
+    local ZX;
     
-    if (ValueOption( "no_precompiled_code" ) == true)
+    if (no_precompiled_code)
         
         if (IsPackageMarkedForLoading( "FunctorCategories", ">= 2023.07-01" ))
             
@@ -230,7 +234,7 @@ end );
         
     end;
     
-    if (ValueOption( "no_precompiled_code" ) != true)
+    if (@not no_precompiled_code)
         
         ADD_FUNCTIONS_FOR_CategoryOfZXDiagrams_precompiled( ZX );
         
@@ -240,7 +244,7 @@ end );
     
     return ZX;
     
-end );
+end ) );
 
 ##
 InstallMethod( @__MODULE__,  ViewString,

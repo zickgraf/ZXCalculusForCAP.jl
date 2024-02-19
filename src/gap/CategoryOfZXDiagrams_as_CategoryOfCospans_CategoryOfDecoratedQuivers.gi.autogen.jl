@@ -254,7 +254,7 @@
         #% CAP_JIT_DROP_NEXT_STATEMENT
         @Assert( 0, ForAll( output_positions, pos -> labels[pos + 1] == "neutral" ) );
         
-        return NTupleGAP( 4, labels, input_positions, output_positions, edges );
+        return @NTupleGAP( 4, labels, input_positions, output_positions, edges );
         
     end;
     

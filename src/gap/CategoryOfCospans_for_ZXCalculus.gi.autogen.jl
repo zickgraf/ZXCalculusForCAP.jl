@@ -4,7 +4,7 @@
 # Implementations
 #
 
-InstallMethod( @__MODULE__,  CategoryOfCospans_for_ZXCalculus,
+@InstallMethod( CategoryOfCospans_for_ZXCalculus,
                [ IsCapCategory ],
                
   function ( underlying_cat )

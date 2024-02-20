@@ -247,7 +247,7 @@ end );
 end ) );
 
 ##
-InstallMethod( @__MODULE__,  ViewString,
+@InstallMethod( ViewString,
         "for an object in a category of ZX-diagrams",
         [ IsZXDiagramObject ],
         
@@ -258,7 +258,7 @@ InstallMethod( @__MODULE__,  ViewString,
 end );
 
 ##
-InstallMethod( @__MODULE__,  DisplayString,
+@InstallMethod( DisplayString,
         "for an object in a category of ZX-diagrams",
         [ IsZXDiagramObject ],
         
@@ -269,7 +269,7 @@ InstallMethod( @__MODULE__,  DisplayString,
 end );
 
 ##
-InstallMethod( @__MODULE__,  DisplayString,
+@InstallMethod( DisplayString,
         "for a morphism in a category of ZX-diagrams",
         [ IsZXDiagramMorphism ],
         

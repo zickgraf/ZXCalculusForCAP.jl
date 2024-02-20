@@ -19,8 +19,6 @@ push!(ModulesForEvaluationStack, ZXCalculusForCAP)
 
 include("init.jl")
 
-pop!(ModulesForEvaluationStack)
-
 # convenience converting Int to BigInt
 
 ##

@@ -15,8 +15,6 @@ using MonoidalCategories
 
 using FinSetsForCAP
 
-push!(ModulesForEvaluationStack, ZXCalculusForCAP)
-
 include("init.jl")
 
 # convenience converting Int to BigInt

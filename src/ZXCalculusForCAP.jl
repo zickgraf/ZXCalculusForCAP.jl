@@ -1,5 +1,3 @@
-__precompile__(false)
-
 module ZXCalculusForCAP
 
 @nospecialize
@@ -12,6 +10,10 @@ import CAP.DisplayString
 import CAP.ViewString
 
 using MonoidalCategories
+
+using CartesianCategories
+
+using Toposes
 
 using FinSetsForCAP
 

@@ -33,13 +33,13 @@ julia> PreCompose( IdentityMorphism( zero ), coev );
 
 julia> Display( PreCompose( coev, ev ) )
 A morphism in Category of ZX-diagrams given by a ZX diagram with 0 vertex labels
-  [ ],
+  [  ],
   inputs
-  [ ],
+  [  ],
   outputs
-  [ ],
+  [  ],
   and 0 edges
-  [ ].
+  [  ].
 
 julia> Display( PreCompose( ev, coev ) )
 A morphism in Category of ZX-diagrams given by a ZX diagram with 6 vertex labels
@@ -49,7 +49,7 @@ A morphism in Category of ZX-diagrams given by a ZX diagram with 6 vertex labels
   outputs
   [ 3, 4, 5, 3, 4, 5 ],
   and 0 edges
-  [ ].
+  [  ].
 
 julia> X_1_1 = MorphismConstructor( one, [ [ "neutral", "X", "neutral" ], [ BigInt( 0 ) ], [ BigInt( 2 ) ], [ [ BigInt( 0 ), BigInt( 1 ) ], [ BigInt( 2 ), BigInt( 1 ) ] ] ], one );
 

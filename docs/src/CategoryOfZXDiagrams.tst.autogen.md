@@ -76,4 +76,64 @@ julia> Z_2_1 = MorphismConstructor( two, [ [ "neutral", "neutral", "Z", "neutral
 julia> IsWellDefinedForMorphisms( Z_2_1 )
 true
 
+julia> X_1_2_Z_2_1 = PreCompose( X_1_2, Z_2_1 );
+
+julia> IsWellDefinedForMorphisms( X_1_2_Z_2_1 )
+true
+
+julia> json_id = ExportAsQGraphString( id );
+
+julia> json_ev = ExportAsQGraphString( ev );
+
+julia> json_coev = ExportAsQGraphString( coev );
+
+julia> json_X_1_1 = ExportAsQGraphString( X_1_1 );
+
+julia> json_Z_1_1 = ExportAsQGraphString( Z_1_1 );
+
+julia> json_H = ExportAsQGraphString( H );
+
+julia> json_X_1_2 = ExportAsQGraphString( X_1_2 );
+
+julia> json_Z_2_1 = ExportAsQGraphString( Z_2_1 );
+
+julia> json_X_1_2_Z_2_1 = ExportAsQGraphString( X_1_2_Z_2_1 );
+
+julia> test_inverse = function( json )
+             local mor, json2, mor2, json3, mor3
+               mor = ImportFromQGraphString( ZX, json )
+               json2 = ExportAsQGraphString( mor )
+               mor2 = ImportFromQGraphString( ZX, json2 )
+               json3 = ExportAsQGraphString( mor2 )
+               mor3 = ImportFromQGraphString( ZX, json3 )
+               return IsEqualForMorphisms( mor2, mor3 ) && json2 == json3
+           end;
+
+julia> test_inverse( json_id )
+true
+
+julia> test_inverse( json_ev )
+true
+
+julia> test_inverse( json_coev )
+true
+
+julia> test_inverse( json_X_1_1 )
+true
+
+julia> test_inverse( json_Z_1_1 )
+true
+
+julia> test_inverse( json_H )
+true
+
+julia> test_inverse( json_X_1_2 )
+true
+
+julia> test_inverse( json_Z_2_1 )
+true
+
+julia> test_inverse( json_X_1_2_Z_2_1 )
+true
+
 ```

@@ -263,7 +263,7 @@ if (IsPackageMarkedForLoading( "json", "2.1.1" ))
         
         qgraph = ExportAsQGraphString( phi );
         
-        FileString( @Concatenation( filename, ".qgraph" ), qgraph );
+        FileString( filename, qgraph );
         
     end );
     
@@ -488,7 +488,7 @@ if (IsPackageMarkedForLoading( "json", "2.1.1" ))
       function ( cat, filename )
         local qgraph;
         
-        qgraph = StringFile( @Concatenation( filename, ".qgraph" ) );
+        qgraph = StringFile( filename );
         
         @Assert( 0, qgraph != fail );
         

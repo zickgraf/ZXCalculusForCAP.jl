@@ -265,6 +265,9 @@ if (IsPackageMarkedForLoading( "json", "2.1.1" ))
         
         FileString( filename, qgraph );
         
+        # suppress return value for julia
+        return;
+        
     end );
     
     @InstallGlobalFunction( ImportFromQGraphString,
@@ -352,6 +355,7 @@ if (IsPackageMarkedForLoading( "json", "2.1.1" ))
             
             Add( labels, "neutral" );
             
+            @Assert( 0, NumberGAP( [ "input", "input2", "output", "output2" ], name -> @IsBound( annotation[name] ) ) > 0 );
             @Assert( 0, NumberGAP( [ "input", "input2", "output", "output2" ], name -> @IsBound( annotation[name] ) ) <= 2 );
             
             if (@IsBound( annotation.input ))

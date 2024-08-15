@@ -7,14 +7,43 @@
 @InstallGlobalFunction( CategoryOfZXDiagrams_as_CategoryOfCospans_CategoryOfDecoratedQuivers, function ( )
   local S_ZX, decorated_quivers, FinalizeCategory, csp, object_constructor, modeling_tower_object_constructor, object_datum, modeling_tower_object_datum, morphism_constructor, modeling_tower_morphism_constructor, morphism_datum, modeling_tower_morphism_datum, ZX;
     
-    # expanded version of: S_ZX = CreateQuiver( 4, S_ZX_EDGES );
-    S_ZX = CreateCapCategoryObjectWithAttributes( FinQuivers, DefiningTripleOfQuiverEnrichedOverSkeletalFinSets, Triple( 4, 3, S_ZX_EDGES ) );
+    # expanded version of: S_ZX = CreateQuiver( Length( S_ZX_NODES ), S_ZX_EDGES );
+    S_ZX = CreateCapCategoryObjectWithAttributes( FinQuivers, DefiningTripleOfQuiverEnrichedOverSkeletalFinSets, Triple( Length( S_ZX_NODES ), Length( S_ZX_EDGES ), S_ZX_EDGES ) );
     
     @Assert( 0, IsWellDefinedForObjects( FinQuivers, S_ZX ) );
     
-    decorated_quivers = CategoryOfDecoratedQuivers( S_ZX, [ "white", "green", "red", "yellow" ], [ "black", "black", "black" ]; FinalizeCategory = true );
+    decorated_quivers = CategoryOfDecoratedQuivers( S_ZX,
+        List( S_ZX_NODES, function ( label )
+            
+            if (label == "neutral")
+                
+                return "white";
+                
+            elseif (label == "H")
+                
+                return "yellow";
+                
+            elseif (StartsWith( label, "Z" ))
+                
+                return "green";
+                
+            elseif (StartsWith( label, "X" ))
+                
+                return "red";
+                
+            else
+                
+                # COVERAGE_IGNORE_NEXT_LINE
+                Error( "unknown label: ", label );
+                
+            end;
+            
+        end ),
+        ListWithIdenticalEntries( Length( S_ZX_EDGES ), Immutable( "black" ) )
+       ; FinalizeCategory = true
+    );
     
-    # Display( ENHANCED_SYNTAX_TREE( x -> CreateCapCategoryObjectWithAttributes( FinQuivers, DefiningTripleOfQuiverEnrichedOverSkeletalFinSets, Triple( 4, 3, S_ZX_EDGES ) ) ).bindings.BINDING_RETURN_VALUE );
+    # Display( ENHANCED_SYNTAX_TREE( x -> CreateCapCategoryObjectWithAttributes( FinQuivers, DefiningTripleOfQuiverEnrichedOverSkeletalFinSets, Triple( 4, 3, CapJitTypedExpression( S_ZX_EDGES, ( ) -> CapJitDataTypeOfListOf( CapJitDataTypeOfNTupleOf( 2, IsBigInt, IsBigInt ) ) ) ) ) ).bindings.BINDING_RETURN_VALUE );
     ModelingCategory( decorated_quivers ).compiler_hints.category_attribute_resolving_functions = @rec(
         BaseObject = ( ) -> @rec(
             args = @rec(
@@ -37,6 +66,20 @@
                             value = 3
                         ),
                         3 = @rec(
+                            data_type = @rec(
+                                element_type = @rec(
+                                    element_types = [
+                                        @rec(
+                                            filter = IsBigInt
+                                        ),
+                                        @rec(
+                                            filter = IsBigInt
+                                        )
+                                    ],
+                                    filter = IsNTuple
+                                ),
+                                filter = IsList
+                            ),
                             gvar = "S_ZX_EDGES",
                             type = "EXPR_REF_GVAR"
                         ),
@@ -96,8 +139,8 @@
         decorated_quivers = UnderlyingCategory( csp );
         
         decorated_quiver = ObjectConstructor( decorated_quivers, PairGAP(
-            Triple( integer, BigInt( 0 ), [ ] ), # (nr_vertices, nr_edges, edges)
-            PairGAP( ListWithIdenticalEntries( integer, BigInt( 0 ) ), [ ] ) # (decorations_of_vertices, deocorations_of_edges)
+            Triple( integer, BigInt( 0 ), CapJitTypedExpression( [ ], ( ) -> CapJitDataTypeOfListOf( CapJitDataTypeOfNTupleOf( 2, IsBigInt, IsBigInt ) ) ) ), # (nr_vertices, nr_edges, edges)
+            PairGAP( ListWithIdenticalEntries( integer, BigInt( 0 ) ), CapJitTypedExpression( [ ], ( ) -> CapJitDataTypeOfListOf( IsBigInt ) ) ) # (decorations_of_vertices, deocorations_of_edges)
         ) );
         
         #% CAP_JIT_DROP_NEXT_STATEMENT
@@ -176,9 +219,13 @@
         nr_edges = Length( edges );
         
         decorations_of_vertices = List( labels, ZX_LabelToInteger );
-        # find each edge in list of S_ZX_EDGES
-        # TODO: introduce SafePositions
-        decorations_of_edges = List( edges, edge -> BigInt( SafePositionProperty( S_ZX_EDGES, e -> e == PairGAP( decorations_of_vertices[1 + edge[1]], decorations_of_vertices[1 + edge[2]] ) ) ) - 1 );
+        
+        #% CAP_JIT_DROP_NEXT_STATEMENT
+        @Assert( 0, ZX_LabelToInteger( "neutral" ) == 0 && ForAll( edges, edge -> decorations_of_vertices[1 + edge[1]] == 0 ) ); # all edges start from a neutrally decorated vertex
+        #% CAP_JIT_DROP_NEXT_STATEMENT
+        @Assert( 0, ForAll( edges, edge -> S_ZX_EDGES[decorations_of_vertices[1 + edge[2]]] == PairGAP( decorations_of_vertices[1 + edge[1]], decorations_of_vertices[1 + edge[2]] ) ) ); # the edge [ 0, i ] has position i in S_ZX_EDGES
+        
+        decorations_of_edges = List( edges, edge -> decorations_of_vertices[1 + edge[2]] - 1 );
         
         central_decorated_quiver = ObjectConstructor( decorated_quivers, PairGAP(
             Triple(
@@ -195,8 +242,8 @@
         #% CAP_JIT_DROP_NEXT_STATEMENT
         @Assert( 0, IsWellDefinedForObjects( decorated_quivers, central_decorated_quiver ) );
         
-        input_morphism = MorphismConstructor( decorated_quivers, source_decorated_quiver, PairGAP( input_positions, [ ] ), central_decorated_quiver );
-        output_morphism = MorphismConstructor( decorated_quivers, range_decorated_quiver, PairGAP( output_positions, [ ] ), central_decorated_quiver );
+        input_morphism = MorphismConstructor( decorated_quivers, source_decorated_quiver, PairGAP( input_positions, CapJitTypedExpression( [ ], ( ) -> CapJitDataTypeOfListOf( IsBigInt ) ) ), central_decorated_quiver );
+        output_morphism = MorphismConstructor( decorated_quivers, range_decorated_quiver, PairGAP( output_positions, CapJitTypedExpression( [ ], ( ) -> CapJitDataTypeOfListOf( IsBigInt ) ) ), central_decorated_quiver );
         
         #% CAP_JIT_DROP_NEXT_STATEMENT
         @Assert( 0, IsWellDefinedForMorphisms( decorated_quivers, input_morphism ) );
